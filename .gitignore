@@ -1,7 +1,21 @@
+# Composer dependencies
 /vendor/
-node_modules/
+
+# Node modules
+/node_modules/
+
+# Local environment files
 .env
+
+# Log files
 *.log
+
+# OS generated files
 .DS_Store
+Thumbs.db
+
+# PHPStorm project files
 .idea/
+
+# SQL dumps
 *.sql
