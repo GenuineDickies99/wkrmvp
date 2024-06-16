@@ -1,48 +1,25 @@
 <?php
 require 'db_connection.php';
 
-function getUsers() {
+function getUsers($role = null) {
     global $pdo;
-    $query = "SELECT * FROM users";
-    $stmt = $pdo->prepare($query);
-    
-    try {
+    if ($role) {
+        $query = "SELECT * FROM users WHERE Role = ?";
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([$role]);
+    } else {
+        $query = "SELECT * FROM users";
+        $stmt = $pdo->prepare($query);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
-        return [];
     }
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-$users = getUsers();
-?>
+$role = isset($_GET['role']) ? $_GET['role'] : null;
+$users = getUsers($role);
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Users</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
-</head>
-<body>
-    <h1>Users List</h1>
+if (count($users) > 0): ?>
     <table>
         <tr>
             <th>User ID</th>
@@ -51,21 +28,16 @@ $users = getUsers();
             <th>Created At</th>
             <th>Updated At</th>
         </tr>
-        <?php if (count($users) > 0): ?>
-            <?php foreach ($users as $user): ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($user['User_ID']); ?></td>
-                    <td><?php echo htmlspecialchars($user['Username']); ?></td>
-                    <td><?php echo htmlspecialchars($user['Role']); ?></td>
-                    <td><?php echo htmlspecialchars($user['CreatedAt']); ?></td>
-                    <td><?php echo htmlspecialchars($user['UpdatedAt']); ?></td>
-                </tr>
-            <?php endforeach; ?>
-        <?php else: ?>
+        <?php foreach ($users as $user): ?>
             <tr>
-                <td colspan="5">No users found.</td>
+                <td><?php echo htmlspecialchars($user['User_ID']); ?></td>
+                <td><?php echo htmlspecialchars($user['Username']); ?></td>
+                <td><?php echo htmlspecialchars($user['Role']); ?></td>
+                <td><?php echo htmlspecialchars($user['CreatedAt']); ?></td>
+                <td><?php echo htmlspecialchars($user['UpdatedAt']); ?></td>
             </tr>
-        <?php endif; ?>
+        <?php endforeach; ?>
     </table>
-</body>
-</html>
+<?php else: ?>
+    <p>No users found.</p>
+<?php endif; ?>
