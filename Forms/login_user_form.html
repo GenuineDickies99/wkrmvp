@@ -7,14 +7,21 @@
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    <form id="loginUserForm" method="post" action="../php/login_user.php">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        
-        <button type="submit">Login</button>
-    </form>
+    <div class="container">
+        <header>
+            <h1>Login User</h1>
+        </header>
+        <main>
+            <form id="loginUserForm" method="post" action="../php/login_user.php">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+                
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                
+                <button type="submit">Login</button>
+            </form>
+        </main>
+    </div>
 </body>
 </html>
