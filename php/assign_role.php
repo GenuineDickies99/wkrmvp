@@ -1,18 +1,29 @@
 <?php
 require 'db_connection.php';
 
-function assignRole($user_id, $role_id) {
-    global $pdo; // Ensure the global $pdo variable is used
-
-    // Update the user's role
-    $query = "UPDATE Users SET role_id = ? WHERE user_id = ?";
+function assignRole($user_id, $role) {
+    global $pdo;
+    
+    // If your roles are stored as names directly, you can use the role name directly in the query
+    $query = "UPDATE users SET Role = ? WHERE User_ID = ?";
     $stmt = $pdo->prepare($query);
 
     try {
-        return $stmt->execute([$role_id, $user_id]);
+        return $stmt->execute([$role, $user_id]);
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
         return false;
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $user_id = $_POST['user_id'];
+    $role = $_POST['role'];
+
+    if (assignRole($user_id, $role)) {
+        echo "Role assigned successfully.";
+    } else {
+        echo "Failed to assign role.";
     }
 }
 ?>
