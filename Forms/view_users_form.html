@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Users</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#viewUsersForm').on('submit', function(event) {
+                event.preventDefault();
+                $.ajax({
+                    url: '../php/view_users.php',
+                    method: 'GET',
+                    data: $(this).serialize(),
+                    beforeSend: function() {
+                        $('#usersTable').html('<p>Loading...</p>');
+                    },
+                    success: function(data) {
+                        $('#usersTable').html(data);
+                    },
+                    error: function() {
+                        $('#usersTable').html('<p>An error occurred while fetching the data. Please try again.</p>');
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>View Users</h1>
+        </header>
+        <main>
+            <form id="viewUsersForm">
+                <label for="role">Filter by Role:</label>
+                <select id="role" name="role">
+                    <option value="">All</option>
+                    <option value="User">User</option>
+                    <option value="Technician">Technician</option>
+                    <option value="Admin">Admin</option>
+                </select>
+                <button type="submit">Filter</button>
+            </form>
+            <div id="usersTable">
+                <!-- Users table will be rendered here by view_users.php -->
+            </div>
+        </main>
+    </div>
+</body>
+</html>

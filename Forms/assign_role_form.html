@@ -12,14 +12,20 @@
             <h1>Assign Role</h1>
         </header>
         <main>
-    <form method="post" action="../php/assign_role.php">
-        <label for="user_id">User ID:</label>
-        <input type="text" id="user_id" name="user_id" required>
-
-        <label for="role_id">Role ID:</label>
-        <input type="text" id="role_id" name="role_id" required>
-        
-        <button type="submit">Assign Role</button>
-    </form>
+            <form method="post" action="../php/assign_role.php">
+                <label for="user_id">User ID:</label>
+                <input type="text" id="user_id" name="user_id" required>
+                
+                <label for="role">Role:</label>
+                <select id="role" name="role" required>
+                    <option value="User">User</option>
+                    <option value="Technician">Technician</option>
+                    <option value="Admin">Admin</option>
+                </select>
+                
+                <button type="submit">Assign Role</button>
+            </form>
+        </main>
+    </div>
 </body>
 </html>
